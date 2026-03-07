@@ -2,6 +2,7 @@ const express = require("express")
 const mongoose = require("mongoose")
 const cors = require("cors")
 require("dotenv").config()
+require('dns').setDefaultResultOrder('ipv4first')
 
 const { connectDB } = require("./config/db");
 
@@ -23,4 +24,6 @@ app.use("/api/auth",authRoutes)
 app.use("/api/sop",sopRoutes)
 app.use("/api/chat",chatRoutes)
 
-app.listen(5000,()=>console.log("Server running"))
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT,()=>console.log(`Server running on port ${PORT}`))
