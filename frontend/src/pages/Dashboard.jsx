@@ -1,31 +1,31 @@
+import Navbar from "../components/Navbar";
+import Upload from "../components/Upload";
+import ChatWindow from "../components/ChatWindow";
 
+export default function Dashboard() {
+  return (
+    <div>
 
-import UploadSOP from "../components/UploadSOP"
-import ChatWindow from "../components/ChatWindow"
+      <Navbar />
 
-export default function Dashboard(){
+      <div style={{
+        display: "flex",
+        justifyContent: "space-around",
+        padding: "40px"
+      }}>
 
-return(
+        <div style={{ width: "40%" }}>
+          <h2>Upload SOP</h2>
+          <Upload />
+        </div>
 
-<div className="grid grid-cols-2 h-screen">
+        <div style={{ width: "50%" }}>
+          <h2>Chat with AI</h2>
+          <ChatWindow />
+        </div>
 
-<div className="p-10 border-r">
+      </div>
 
-<h2 className="text-2xl font-bold">
-Upload SOP
-</h2>
-
-<UploadSOP/>
-
-</div>
-
-<div>
-
-<ChatWindow/>
-
-</div>
-
-</div>
-
-)
+    </div>
+  );
 }

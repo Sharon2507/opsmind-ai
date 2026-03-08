@@ -1,32 +1,24 @@
 import {Link} from "react-router-dom"
 
-export default function Navbar(){
+function Navbar(){
+  return (
+    <nav style={{
+      display: "flex",
+      justifyContent: "space-between",
+      padding: "15px 40px",
+      background: "#111",
+      color: "white",
+      alignItems: "center"
+    }}>
+      <h2>OpsMind AI</h2>
 
-const logout = ()=>{
-localStorage.removeItem("token")
-window.location="/"
+      <div style={{ display: "flex", gap: "20px" }}>
+        <Link to="/dashboard">Dashboard</Link>
+        <Link to="/login">Login</Link>
+        <Link to="/signup">Signup</Link>
+      </div>
+    </nav>
+  );
 }
 
-return(
-
-<div className="flex justify-between p-4 bg-gray-900 text-white">
-
-<h1 className="font-bold">
-OpsMind AI
-</h1>
-
-<div className="flex gap-4">
-
-<Link to="/dashboard">Dashboard</Link>
-
-<button onClick={logout}>
-Logout
-</button>
-
-</div>
-
-</div>
-
-)
-
-}
+export default Navbar;

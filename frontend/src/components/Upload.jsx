@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export default function UploadSOP(){
+export default function Upload(){
 
 const upload = async(e)=>{
 
