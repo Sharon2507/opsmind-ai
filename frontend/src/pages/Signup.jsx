@@ -1,47 +1,77 @@
-import {useState} from "react"
-import API from "../api"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export default function Signup(){
+function Signup(){
 
-const [email,setEmail] = useState("")
-const [password,setPassword] = useState("")
+const navigate = useNavigate();
 
-const signup = async()=>{
+const [name,setName] = useState("");
+const [email,setEmail] = useState("");
+const [password,setPassword] = useState("");
 
-await API.post("/auth/signup",{
-email,
-password
-})
+const handleSignup = () => {
 
-alert("Signup successful")
+if(name && email && password){
 
-window.location="/"
+// store signup data
+localStorage.setItem("userName", name);
+localStorage.setItem("userEmail", email);
+localStorage.setItem("userPassword", password);
+
+// go to login
+navigate("/");
 
 }
 
+};
+
 return(
 
-<div className="flex flex-col gap-4 p-10">
+<div className="auth-page">
 
-<h2 className="text-2xl font-bold">Signup</h2>
+<div className="auth-card">
+
+<h2>Signup</h2>
 
 <input
+type="text"
+placeholder="Full Name"
+value={name}
+onChange={(e)=>setName(e.target.value)}
+/>
+
+<input
+type="email"
 placeholder="Email"
-onChange={e=>setEmail(e.target.value)}
+value={email}
+onChange={(e)=>setEmail(e.target.value)}
 />
 
 <input
-placeholder="Password"
 type="password"
-onChange={e=>setPassword(e.target.value)}
+placeholder="Password"
+value={password}
+onChange={(e)=>setPassword(e.target.value)}
 />
 
-<button onClick={signup}>
-Signup
-</button>
+<button onClick={handleSignup}>Signup</button>
+
+<p>
+Already have account?
+<span
+style={{color:"blue",cursor:"pointer"}}
+onClick={()=>navigate("/")}
+>
+Login
+</span>
+</p>
+
+</div>
 
 </div>
 
 )
 
 }
+
+export default Signup;

@@ -1,38 +1,99 @@
-import {useState} from "react"
-import axios from "axios"
+import { useState } from "react";
+import axios from "axios";
 
-export default function ChatWindow(){
+export default function ChatWindow() {
 
-const [question,setQuestion]=useState("")
-const [answer,setAnswer]=useState("")
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [loading, setLoading] = useState(false);
 
-const ask = async()=>{
+  const ask = async () => {
 
-const res = await axios.post(
-"http://localhost:5000/api/chat",
-{question}
-)
+    if (!question.trim()) {
+      alert("Please enter a question");
+      return;
+    }
 
-setAnswer(res.data)
-}
+    try {
 
-return(
+      setLoading(true);
+      setAnswer("");
 
-<div className="p-10">
+      const res = await axios.post(
+        "http://localhost:5000/api/chat",
+        { question }
+      );
 
-<textarea
-className="border w-full"
-onChange={e=>setQuestion(e.target.value)}
-/>
+      setAnswer(res.data.answer); // backend should return {answer:"text"}
 
-<button onClick={ask}>Ask AI</button>
+    } catch (err) {
 
-<div className="mt-5">
-{answer}
-</div>
+      console.error(err);
+      setAnswer("❌ Error getting response from AI");
 
-</div>
+    } finally {
 
-)
+      setLoading(false);
 
+    }
+
+  };
+
+  return (
+
+    <div style={{ padding: "40px", maxWidth: "800px", margin: "auto" }}>
+
+      <h2>Ask Questions From SOP</h2>
+
+      <textarea
+        placeholder="Ask anything about the uploaded SOP..."
+        value={question}
+        onChange={(e) => setQuestion(e.target.value)}
+        style={{
+          width: "100%",
+          height: "120px",
+          padding: "10px",
+          border: "1px solid #ccc",
+          borderRadius: "6px"
+        }}
+      />
+
+      <br /><br />
+
+      <button
+        onClick={ask}
+        style={{
+          padding: "10px 20px",
+          background: "#3b82f6",
+          color: "white",
+          border: "none",
+          borderRadius: "6px",
+          cursor: "pointer"
+        }}
+      >
+        Ask AI
+      </button>
+
+      <div style={{ marginTop: "30px" }}>
+
+        {loading && <p>🤖 AI is thinking...</p>}
+
+        {answer && (
+          <div
+            style={{
+              background: "#f3f4f6",
+              padding: "15px",
+              borderRadius: "8px"
+            }}
+          >
+            <strong>Answer:</strong>
+            <p>{answer}</p>
+          </div>
+        )}
+
+      </div>
+
+    </div>
+
+  );
 }

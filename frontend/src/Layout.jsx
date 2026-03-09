@@ -1,17 +1,18 @@
+import { Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import Chat from "./pages/Chat";
-import Upload from "./components/Upload";
+import "./App.css";
 
 function Layout() {
   return (
-    <>
-      <Navbar />
+    <div>
 
-      <div style={{ display: "flex" }}>
-        <Chat />
-        <Upload />
+      <Navbar />   {/* Navbar only here */}
+
+      <div className="container">
+        <Outlet />
       </div>
-    </>
+
+    </div>
   );
 }
 

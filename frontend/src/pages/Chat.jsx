@@ -1,19 +1,33 @@
-import ChatWindow from "../components/ChatWindow"
+import ChatWindow from "../components/ChatWindow";
 
-export default function Chat(){
+function Chat() {
 
-return(
+  return (
 
-<div className="h-screen">
+    <div className="container">
 
-<h1 className="text-2xl font-bold p-5">
-OpsMind AI Chat
-</h1>
+      <div className="dashboard">
 
-<ChatWindow/>
+        <div className="upload-box">
+          <h2>Upload SOP</h2>
+          <input type="file" />
+        </div>
 
-</div>
+        <div>
+          <h2>Chat with AI</h2>
 
-)
+          <div className="chat-box">
+            <ChatWindow />
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  );
 
 }
+
+export default Chat;
