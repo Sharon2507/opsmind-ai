@@ -1,3 +1,4 @@
+import Upload from "../components/Upload"
 import ChatWindow from "../components/ChatWindow";
 
 function Chat() {

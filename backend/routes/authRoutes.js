@@ -1,4 +1,6 @@
-const router = require("express").Router()
+const express = require("express")
+const router = express.Router()
+
 const User = require("../models/User")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
@@ -18,7 +20,7 @@ router.post("/signup", async (req, res) => {
     const hash = await bcrypt.hash(password, 10)
 
     const user = new User({
-      email: email,
+      email,
       password: hash
     })
 
@@ -31,9 +33,9 @@ router.post("/signup", async (req, res) => {
   }
 })
 
-
 // LOGIN
 router.post("/login", async (req, res) => {
+
   try {
 
     const { email, password } = req.body
@@ -50,17 +52,14 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ msg: "Invalid password" })
     }
 
-    const token = jwt.sign(
-      { id: user._id },
-      "secret",
-      { expiresIn: "1d" }
-    )
+    const token = jwt.sign({ id: user._id }, "secret", { expiresIn: "1d" })
 
     res.json({ token })
 
   } catch (error) {
     res.status(500).json({ error: error.message })
   }
+
 })
 
 module.exports = router

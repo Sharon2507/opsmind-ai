@@ -1,60 +1,41 @@
-import { useState } from "react";
-import axios from "axios";
+import axios from "axios"
 
 export default function Upload() {
 
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-
   const upload = async (e) => {
 
-    const file = e.target.files[0];
+    const file = e.target.files[0]
 
-    if (!file) return;
+    const formData = new FormData()
 
-    const form = new FormData();
-    form.append("file", file);
+    formData.append("file", file)
 
     try {
 
-      setLoading(true);
-      setMessage("Uploading...");
-
       const res = await axios.post(
         "http://localhost:5000/api/sop/upload",
-        form,
+        formData,
         {
           headers: {
             "Content-Type": "multipart/form-data"
           }
         }
-      );
+      )
 
-      setLoading(false);
-      setMessage("✅ SOP Uploaded Successfully");
+      alert(res.data.msg)
 
-    } catch (error) {
+    } catch (err) {
 
-      setLoading(false);
-      setMessage("❌ Upload Failed");
+      console.log(err)
 
-      console.error(error);
+      alert("Upload failed")
+
     }
-  };
+
+  }
 
   return (
-    <div style={{ padding: "40px" }}>
+    <input type="file" onChange={upload} />
+  )
 
-      <h2>Upload SOP Document</h2>
-
-      <input type="file" accept="application/pdf" onChange={upload} />
-
-      <br /><br />
-
-      {loading && <p>Uploading PDF...</p>}
-
-      {message && <p>{message}</p>}
-
-    </div>
-  );
 }

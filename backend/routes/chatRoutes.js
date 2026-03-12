@@ -1,32 +1,28 @@
-const router = require("express").Router()
-const Sop = require("../models/Sop")
-const axios = require("axios")
+const express = require("express")
 
-router.post("/",async(req,res)=>{
+const router = express.Router()
 
-const {question}=req.body
+const { getPDFText } = require("./sopRoutes")
 
-const sop = await Sop.findOne()
+router.post("/", (req, res) => {
 
-let context = sop.chunks.slice(0,5).join("\n")
+  const { question } = req.body
 
-const response = await axios.post(
-"https://api.openai.com/v1/chat/completions",
-{
-model:"gpt-4.1-mini",
-messages:[
-{role:"system",content:"Answer only from SOP context"},
-{role:"user",content:`Context:${context}\nQuestion:${question}`}
-]
-},
-{
-headers:{
-Authorization:`Bearer ${process.env.OPENAI_KEY}`
-}
-}
-)
+  const pdfText = getPDFText()
 
-res.json(response.data.choices[0].message.content)
+  if (!pdfText) {
+    return res.json({ answer: "Please upload SOP PDF first." })
+  }
+
+  if (pdfText.toLowerCase().includes(question.toLowerCase())) {
+
+    res.json({ answer: "Information found in SOP document." })
+
+  } else {
+
+    res.json({ answer: "Answer not found in SOP." })
+
+  }
 
 })
 

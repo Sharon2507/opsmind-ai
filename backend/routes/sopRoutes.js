@@ -1,31 +1,51 @@
-const router = require("express").Router()
+const express = require("express")
 const multer = require("multer")
-const extractText = require("../services/pdfService")
-const chunkText = require("../services/ragService")
-const Sop = require("../models/Sop")
+const pdf = require("pdf-parse")
+const fs = require("fs")
 
-const storage = multer.memoryStorage()
-const upload = multer({ storage })
+const router = express.Router()
 
-router.post("/upload", upload.single("file"), async (req, res) => {
-  try {
+let pdfText = ""
 
-    const text = await extractText(req.file.buffer)
-
-    const chunks = chunkText(text)
-
-    const sop = new Sop({
-      filename: req.file.originalname,
-      chunks
-    })
-
-    await sop.save()
-
-    res.json({ msg: "SOP uploaded successfully" })
-
-  } catch (error) {
-    res.status(500).json({ error: error.message })
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/")
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname)
   }
 })
 
-module.exports = router
+const upload = multer({ storage })
+
+router.post("/upload", upload.single("file"), async (req, res) => {
+
+  try {
+
+    if (!req.file) {
+      return res.status(400).json({ msg: "No file uploaded" })
+    }
+
+    const buffer = fs.readFileSync(req.file.path)
+
+    const data = await pdf(buffer)
+
+    pdfText = data.text
+
+    console.log("PDF loaded successfully")
+
+    res.json({ msg: "PDF uploaded successfully" })
+
+  } catch (err) {
+
+    console.log(err)
+
+    res.status(500).json({ error: "PDF processing failed" })
+
+  }
+
+})
+
+const getPDFText = () => pdfText
+
+module.exports = { router, getPDFText }
