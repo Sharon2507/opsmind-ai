@@ -1,4 +1,4 @@
-import Upload from "../components/Upload"
+import Upload from "../components/Upload";
 import ChatWindow from "../components/ChatWindow";
 
 function Chat() {
@@ -7,23 +7,13 @@ function Chat() {
 
     <div className="container">
 
-      <div className="dashboard">
+      <h2 style={{ color: "black" }}>Upload SOP</h2>
 
-        <div className="upload-box">
-          <h2>Upload SOP</h2>
-          <input type="file" />
-        </div>
+      <Upload />
 
-        <div>
-          <h2>Chat with AI</h2>
+     
 
-          <div className="chat-box">
-            <ChatWindow />
-          </div>
-
-        </div>
-
-      </div>
+      <ChatWindow />
 
     </div>
 

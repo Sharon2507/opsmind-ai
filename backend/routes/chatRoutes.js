@@ -1,5 +1,4 @@
 const express = require("express")
-
 const router = express.Router()
 
 const { getPDFText } = require("./sopRoutes")
@@ -14,14 +13,21 @@ router.post("/", (req, res) => {
     return res.json({ answer: "Please upload SOP PDF first." })
   }
 
-  if (pdfText.toLowerCase().includes(question.toLowerCase())) {
+  const sentences = pdfText.split(".")
 
-    res.json({ answer: "Information found in SOP document." })
+  let matchedSentence = ""
 
+  for (let sentence of sentences) {
+    if (sentence.toLowerCase().includes(question.toLowerCase())) {
+      matchedSentence = sentence
+      break
+    }
+  }
+
+  if (matchedSentence) {
+    res.json({ answer: matchedSentence })
   } else {
-
-    res.json({ answer: "Answer not found in SOP." })
-
+    res.json({ answer: "No relevant answer found in SOP." })
   }
 
 })

@@ -1,51 +1,51 @@
-const express = require("express")
-const multer = require("multer")
-const pdf = require("pdf-parse")
-const fs = require("fs")
+const express = require("express");
+const multer = require("multer");
+const pdfParse = require("pdf-parse");
+const fs = require("fs");
 
-const router = express.Router()
+const router = express.Router();
 
-let pdfText = ""
+let pdfText = "";
 
+// Multer storage setup
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/")
+    cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
-    cb(null, file.originalname)
+    cb(null, file.originalname);
   }
-})
+});
 
-const upload = multer({ storage })
+const upload = multer({ storage });
 
+// Upload route
 router.post("/upload", upload.single("file"), async (req, res) => {
-
   try {
 
     if (!req.file) {
-      return res.status(400).json({ msg: "No file uploaded" })
+      return res.status(400).json({ msg: "No file uploaded" });
     }
 
-    const buffer = fs.readFileSync(req.file.path)
+    const buffer = fs.readFileSync(req.file.path);
 
-    const data = await pdf(buffer)
+    const data = await pdfParse(buffer);
 
-    pdfText = data.text
+    pdfText = data.text;
 
-    console.log("PDF loaded successfully")
+    console.log("PDF loaded successfully");
 
-    res.json({ msg: "PDF uploaded successfully" })
+    res.json({ msg: "PDF uploaded successfully" });
 
   } catch (err) {
 
-    console.log(err)
+    console.error(err);
 
-    res.status(500).json({ error: "PDF processing failed" })
+    res.status(500).json({ error: "PDF processing failed" });
 
   }
+});
 
-})
+const getPDFText = () => pdfText;
 
-const getPDFText = () => pdfText
-
-module.exports = { router, getPDFText }
+module.exports = { router, getPDFText };

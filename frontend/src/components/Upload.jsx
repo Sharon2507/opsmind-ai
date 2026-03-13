@@ -1,41 +1,52 @@
+import { useState } from "react"
 import axios from "axios"
 
-export default function Upload() {
+function Upload() {
 
-  const upload = async (e) => {
+  const [selectedFile, setSelectedFile] = useState(null)
 
-    const file = e.target.files[0]
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0])
+  }
+
+  const uploadPDF = async () => {
+
+    if (!selectedFile) {
+      alert("Please select a file first")
+      return
+    }
 
     const formData = new FormData()
-
-    formData.append("file", file)
+    formData.append("file", selectedFile)
 
     try {
 
       const res = await axios.post(
         "http://localhost:5000/api/sop/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        }
+        formData
       )
 
       alert(res.data.msg)
 
-    } catch (err) {
+    } catch (error) {
 
-      console.log(err)
-
-      alert("Upload failed")
+      console.error(error)
 
     }
 
   }
 
   return (
-    <input type="file" onChange={upload} />
-  )
+    <div className="upload-container">
 
+      <input type="file" onChange={handleFileChange} />
+
+      <button onClick={uploadPDF}>
+        Upload SOP
+      </button>
+
+    </div>
+  )
 }
+
+export default Upload

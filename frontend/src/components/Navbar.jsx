@@ -31,10 +31,10 @@ function Navbar() {
     }}>
 
       {/* Brand */}
-      <h2 style={{color:"black"}}>Opsmind-AI</h2>
+      <h2 style={{color:"white"}}>Opsmind-AI</h2>
 
       {/* Menu */}
-      <div style={{display:"flex",gap:"25px",alignItems:"center"}}>
+      <div className="nav-links"style={{display:"flex",gap:"25px",alignItems:"center"}}>
 
         <Link to="/dashboard">Dashboard</Link>
         <Link to="/chat">Chat</Link>
@@ -86,7 +86,7 @@ function Navbar() {
                   style={{
                     background:"#3b82f6",
                     color:"white",
-                    border:"none",
+                    border:"1px solid rgb(255, 255, 255)",
                     padding:"8px 15px",
                     borderRadius:"6px"
                   }}
