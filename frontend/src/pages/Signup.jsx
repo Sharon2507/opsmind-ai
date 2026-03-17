@@ -60,7 +60,7 @@ onChange={(e)=>setPassword(e.target.value)}
 Already have account?
 <span
 style={{color:"blue",cursor:"pointer"}}
-onClick={()=>navigate("/")}
+onClick={()=>navigate("/login")}
 >
 Login
 </span>

@@ -25,9 +25,9 @@ function Navbar() {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      padding: "15px 40px",
-      background: "rgba(0,0,0,0.4)",
-      backdropFilter: "blur(10px)"
+      padding: "0px 20px",
+      background: "#000",
+      backdropFilter: "none"
     }}>
 
       {/* Brand */}

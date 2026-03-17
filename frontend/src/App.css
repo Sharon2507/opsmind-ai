@@ -2,7 +2,7 @@ body{
   margin:0;
   font-family: Arial, Helvetica, sans-serif;
   min-height:100vh;
-  background-image:url("C:\Users\devia\opsmind-ai\frontend\images\ba905769-d725-45d9-95df-b6f1691bb335.png");
+  background-image:url("C:\Users\devia\opsmind-ai\frontend\images\ChatGPT Image Mar 17, 2026, 11_43_04 AM.png");
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
@@ -26,6 +26,7 @@ body{
   gap:25px;
   font-family: sans-serif;
   font-size: medium;
+  font-weight: bold;
  
 }
 
@@ -33,7 +34,7 @@ body{
   text-decoration:none;
   color:hsl(210, 25%, 97%);
   font-size:18px;
-  font-weight:500;
+  font-weight:bold;
 }
 
 .nav-links a:hover{
@@ -105,11 +106,15 @@ body{
 /* Login Signup Card */
 .auth-card{
   width: 280px;
-  background: rgba(255, 255, 255, 0.2); /* transparent white */
+  background: rgba(0, 123, 255, 0.1);  /* transparent light blue */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 30px rgba(0, 123, 255, 0.15);
   padding:20px;
   border-radius:12px;
   text-align:center;
   color: #0f172a;
+  
   
 }
 
